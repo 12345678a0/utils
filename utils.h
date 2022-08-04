@@ -1,6 +1,15 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+typedef struct _tag_date_time_st {
+	uint16_t year;
+	uint8_t month;
+	uint8_t day;
+	uint8_t hour;
+	uint8_t minute;
+	uint8_t second;
+} date_time_st;    
+
 #define BSWAP_16(x) \
         (uint16_t) ( (((uint16_t)(x) & 0x00ff) << 8) \
         | (((uint16_t)(x) & 0xff00) >> 8) )
@@ -80,5 +89,7 @@ int hex2str(uint8_t *p_hex, uint16_t hex_len, char *str, bool capital);
  *@return 0(成功) -1(失败)  
  */
 int str2hex(char *p_str, uint16_t str_len, uint8_t *hex);
+
+void user_clock_time_transform(uint32_t utcTime, date_time_st * dateTime);
 
 #endif /* __UTILS_H__  */

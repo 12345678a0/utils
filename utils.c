@@ -217,6 +217,33 @@ int str2hex(char *p_str, uint16_t str_len, uint8_t *hex)
 	return 0;
 }
 
+void user_clock_time_transform(uint32_t utcTime, date_time_st * dateTime)
+{
+	int8_t ClockTimeZone = 8;  
+	uint32_t a, b, c, d;
+	
+#define USER_CLOCK_JAN_1970    0x83AA7E80	// 2208988800 | 1970-1900 in seconds	
+	uint64_t all = 68569 + 2415021 + (utcTime + USER_CLOCK_JAN_1970 + ClockTimeZone * 3600) / 86400;
+#undef USER_CLOCK_JAN_1970	
+
+	a	= (all << 2) / 146097;
+	all	= all - ((146097 * a + 3) >> 2);
+	b	= (4000 * (all + 1)) / 1461001;
+	all	= all - ((1461 * b) >> 2) + 31;
+	c	= (80 * all) / 2447;
+	d	= (utcTime + ClockTimeZone * 3600);
+
+	dateTime->year		= 100 * (a - 49) + b + c / 11;
+	dateTime->month		= c + 2 - (12 * (c / 11));
+	dateTime->day		= all - (2447 * c) / 80;
+	dateTime->week		= (d / (24 * 3600) + 4) % 7;
+	dateTime->week      = (dateTime->week ? dateTime->week : 7);
+	dateTime->hour		= (d % 86400) / 3600;
+	dateTime->minute	= (d % 3600) / 60;
+	dateTime->second	= d % 60;；
+}
+
+
 int main(int argc, char *argv[])
 {
 	int ret = -1;
