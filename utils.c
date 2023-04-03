@@ -208,7 +208,7 @@ int str2hex(char *p_str, uint16_t str_len, uint8_t *hex)
 			return -1;
 		}
 		
-		if (str_len % 2 != 0)
+		if (str_len % 2 == 0)
 		{
 			hex[str_len/2] = hex_h | hex_l; 		
 		}
