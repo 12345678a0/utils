@@ -240,7 +240,7 @@ void user_clock_time_transform(uint32_t utcTime, date_time_st * dateTime)
 	dateTime->week      = (dateTime->week ? dateTime->week : 7);
 	dateTime->hour		= (d % 86400) / 3600;
 	dateTime->minute	= (d % 3600) / 60;
-	dateTime->second	= d % 60;；
+	dateTime->second	= d % 60;
 }
 
 
